@@ -1,6 +1,7 @@
 import * as three from 'three';
 import SceneSubject from './sceneSubject';
 import GeneralLights from './generalLights';
+import drawCarpark from '../carpark/CarparkSubject';
 
 export default canvas => {
 
@@ -55,8 +56,9 @@ export default canvas => {
 
     function createSceneSubjects(scene) {
         const sceneSubjects = [
-            new GeneralLights(scene),
-            new SceneSubject(scene)
+            new drawCarpark(scene)
+            //new GeneralLights(scene),
+            //new SceneSubject(scene)
         ];
 
         return sceneSubjects;
@@ -65,8 +67,10 @@ export default canvas => {
     function update() {
         const elapsedTime = clock.getElapsedTime();
 
-        for(let i=0; i<sceneSubjects.length; i++)
-            sceneSubjects[i].update(elapsedTime);
+        for(let i = 0; i < sceneSubjects.length; i++) {
+            if (!sceneSubjects[i].stable)
+                sceneSubjects[i].update(elapsedTime);
+        }
 
         updateCameraPositionRelativeToMouse();
 
@@ -74,8 +78,8 @@ export default canvas => {
     }
 
     function updateCameraPositionRelativeToMouse() {
-        camera.position.x += (  (mousePosition.x * 0.01) - camera.position.x ) * 0.01;
-        camera.position.y += ( -(mousePosition.y * 0.01) - camera.position.y ) * 0.01;
+        camera.position.x += (  (mousePosition.x * 0.1) - camera.position.x ) *  1;
+        camera.position.y += ( -(mousePosition.y * 0.1) - camera.position.y ) * 0.1;
         camera.lookAt(origin);
     }
 

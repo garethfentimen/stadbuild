@@ -1,7 +1,7 @@
 import react from 'react';
 import React, { Component } from 'react';
 import TicketOffice from './TicketOffice';
-import carparkContainer from './CarparkContainer';
+import threeEntryPoint from '../three/threeEntryPoint';
 
 export default class Carpark extends Component {
     constructor() { 
@@ -9,7 +9,7 @@ export default class Carpark extends Component {
     }
 
     componentDidMount() {
-        carparkContainer(this.threeRootElement);
+        threeEntryPoint(this.threeRootElement);
     }
 
     render() {
