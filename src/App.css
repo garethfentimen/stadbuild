@@ -2,11 +2,6 @@
   text-align: center;
 }
 
-/* .App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-} */
-
 .App-header {
   background-color: #222;
   height: 60px;
@@ -20,6 +15,10 @@
 
 .App-intro {
   font-size: large;
+}
+
+.carpark {
+  margin: 0 20px;
 }
 
 @keyframes App-logo-spin {

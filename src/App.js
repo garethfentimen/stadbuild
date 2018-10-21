@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import Carpark from './carpark/Carpark';
+import TicketOffice from './subjects/TicketOffice';
+import CarparkScene from './scenes/Carpark';
 
 class App extends Component {
   render() {
@@ -10,7 +11,11 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <div className="App-intro">
-          <Carpark />
+          <div className="carpark">
+            <CarparkScene xOffset={30} yOffset={80}>
+              <TicketOffice />
+            </CarparkScene>
+          </div>
         </div>
       </div>
     );

@@ -1,7 +1,7 @@
 import * as three from 'three';
 import SceneSubject from './sceneSubject';
 import GeneralLights from './generalLights';
-import drawCarpark from '../carpark/CarparkSubject';
+import drawCarpark from '../scenes/CarparkSubject';
 
 export default canvas => {
 
