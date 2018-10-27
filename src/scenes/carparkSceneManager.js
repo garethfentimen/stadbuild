@@ -1,5 +1,6 @@
 import * as three from 'three';
 import drawCarpark from './CarparkSubject';
+import carparkLights from './carparkLights';
 import squareTexture from './square-outline-textured.png';
 
 const SceneManager = (canvas, xOffset, yOffset) => {
@@ -22,17 +23,14 @@ const SceneManager = (canvas, xOffset, yOffset) => {
 
         // cubes
         cubeGeo = new three.BoxBufferGeometry( 50, 50, 50 );
-        cubeMaterial = new three.MeshLambertMaterial(
-            { color: 0xfeb74c, map: new three.TextureLoader().load(squareTexture) }
-        );
 
         return scene;
     }
 
     const createSceneSubjects = (scene) => {
         const sceneSubjects = [
-            new drawCarpark(scene)
-            //new GeneralLights(scene),
+            new drawCarpark(scene),
+            new carparkLights(scene)
             //new SceneSubject(scene)
         ];
 
@@ -94,7 +92,6 @@ const SceneManager = (canvas, xOffset, yOffset) => {
         const clientY = event.clientY - yOffset;
         mouse.set( ( clientX / screenDimensions.width ) * 2 - 1, - ( clientY / screenDimensions.height ) * 2 + 1 );
         if (camera) {
-            console.log(mouse);
             raycaster.setFromCamera( mouse, camera );
             var intersects = raycaster.intersectObjects( objects );
             if ( intersects.length > 0 ) {
@@ -124,6 +121,9 @@ const SceneManager = (canvas, xOffset, yOffset) => {
             //     }
             // create cube
             //} else {
+                cubeMaterial = new three.MeshLambertMaterial(
+                    { color: 0xfeb74c, map: new three.TextureLoader().load(squareTexture) }
+                );
                 var voxel = new three.Mesh( cubeGeo, cubeMaterial );
                 voxel.position.copy( intersect.point ).add( intersect.face.normal );
                 voxel.position.divideScalar( 50 ).floor().multiplyScalar( 50 ).addScalar( 25 );
@@ -147,6 +147,7 @@ const SceneManager = (canvas, xOffset, yOffset) => {
     const mouse = new three.Vector2();
     var geometry = new three.PlaneBufferGeometry( 1000, 1000 );
     geometry.rotateX( - Math.PI / 2 );
+
     const plane = new three.Mesh( geometry, new three.MeshBasicMaterial( { visible: false } ) );
     scene.add( plane );
     objects.push( plane );

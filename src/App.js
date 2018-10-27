@@ -12,7 +12,7 @@ class App extends Component {
         </header>
         <div className="App-intro">
           <div className="carpark">
-            <CarparkScene xOffset={30} yOffset={80}>
+            <CarparkScene xOffset={30} yOffset={84}>
               <TicketOffice />
             </CarparkScene>
           </div>
