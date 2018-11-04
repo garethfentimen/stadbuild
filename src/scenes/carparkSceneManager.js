@@ -3,7 +3,7 @@ import drawCarpark from './CarparkSubject';
 import carparkLights from './carparkLights';
 import squareTexture from './square-outline-textured.png';
 
-const SceneManager = (canvas, xOffset, yOffset) => {
+const SceneManager = (canvas, xOffset, yOffset, store) => {
     const clock = new three.Clock();
     const objects = [];
     let camera = {};
@@ -114,13 +114,12 @@ const SceneManager = (canvas, xOffset, yOffset) => {
         if ( intersects.length > 0 ) {
             var intersect = intersects[ 0 ];
             // delete cube
-            // if ( isShiftDown ) {
-            //     if ( intersect.object !== plane ) {
-            //         scene.remove( intersect.object );
-            //         objects.splice( objects.indexOf( intersect.object ), 1 );
-            //     }
-            // create cube
-            //} else {
+            if ( store.getState().stadiumBuilder.deleteMode ) {
+                if ( intersect.object !== plane ) {
+                    scene.remove( intersect.object );
+                    objects.splice( objects.indexOf( intersect.object ), 1 );
+                }
+            } else {
                 cubeMaterial = new three.MeshLambertMaterial(
                     { color: 0xfeb74c, map: new three.TextureLoader().load(squareTexture) }
                 );
@@ -131,6 +130,7 @@ const SceneManager = (canvas, xOffset, yOffset) => {
                 objects.push( voxel );
             }
             renderer.render(scene, camera);
+        }
     }
 
     const scene = buildScene();

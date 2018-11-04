@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import threeEntryPoint from './threeEntryPoint';
 import './carpark.scss';
 import { connect } from 'react-redux';
@@ -14,7 +14,7 @@ class Carpark extends Component {
 
     componentDidMount() {
         console.log('mounted', this.yOffset);
-        threeEntryPoint(this.threeRootElement, this.xOffset, this.yOffset, this.props.deleteMode);
+        threeEntryPoint(this.threeRootElement, this.xOffset, this.yOffset, this.props.store);
     }
     
     render() {
@@ -34,7 +34,8 @@ class Carpark extends Component {
 Carpark.propTypes = {
     yOffset: PropTypes.number.isRequired,
     xOffset: PropTypes.number.isRequired,
-    deleteMode: PropTypes.bool.isRequired
+    deleteMode: PropTypes.bool.isRequired,
+    store: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => {

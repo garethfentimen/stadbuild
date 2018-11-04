@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import TicketOffice from './subjects/TicketOffice';
 import CarparkScene from './scenes/Carpark';
+import PropTypes from 'prop-types';
 
 class App extends Component {
   render() {
@@ -12,7 +13,7 @@ class App extends Component {
         </header>
         <div className="App-intro">
           <div className="carpark">
-            <CarparkScene xOffset={30} yOffset={84}>
+            <CarparkScene store={this.props.store} xOffset={30} yOffset={84}>
               <TicketOffice />
             </CarparkScene>
           </div>
@@ -21,5 +22,9 @@ class App extends Component {
     );
   }
 }
+
+App.propTypes = {
+  store: PropTypes.object.isRequired
+};
 
 export default App;

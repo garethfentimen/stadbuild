@@ -1,8 +1,8 @@
 import SceneManager from './carparkSceneManager';
 
-const containerElement = (element, xOffset, yOffset) => {
+const containerElement = (element, xOffset, yOffset, store) => {
     const canvas = createCanvas(document, element);
-    const sceneManager = new SceneManager(canvas, xOffset, yOffset);
+    const sceneManager = new SceneManager(canvas, xOffset, yOffset, store);
     let canvasHalfWidth;
     let canvasHalfHeight;
     render();
