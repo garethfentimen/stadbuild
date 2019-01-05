@@ -14,8 +14,9 @@ class App extends Component {
         <div className="App-intro">
           <div className="carpark">
             <CarparkScene store={this.props.store} xOffset={30} yOffset={84}>
-              <TicketOffice />
+              
             </CarparkScene>
+            {/* <TicketOffice /> */}
           </div>
         </div>
       </div>

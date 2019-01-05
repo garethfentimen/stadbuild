@@ -31,7 +31,6 @@ const SceneManager = (canvas, xOffset, yOffset, store) => {
         const sceneSubjects = [
             new drawCarpark(scene),
             new carparkLights(scene)
-            //new SceneSubject(scene)
         ];
 
         return sceneSubjects;
