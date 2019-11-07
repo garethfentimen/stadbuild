@@ -8,6 +8,8 @@ export default (canvas, sceneManager) => {
     sceneManager.onWindowResize();
 
     return {
+        cavasWidth: canvas.offsetWidth,
+        canvasHeight: canvas.offsetHeight,
         canvasHalfWidth: Math.round(canvas.offsetWidth/2),
         canvasHalfHeight: Math.round(canvas.offsetHeight/2)
     }

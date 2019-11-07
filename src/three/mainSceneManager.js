@@ -1,5 +1,8 @@
 import * as three from 'three';
-import drawCarpark from './CarparkSubject';
+import buildScene from './scene/buildScene';
+import buildRenderer from './scene/renderScene';
+import buildCamera from './scene/camera';
+import carpark from './CarparkSubject';
 import carparkLights from './carparkLights';
 import squareTexture from './square-outline-textured.png';
 
@@ -13,28 +16,13 @@ const SceneManager = (canvas, xOffset, yOffset, store) => {
         height: canvas.height
     }
 
-    const buildScene = () => {
-        const scene = new three.Scene();
-        scene.background = new three.Color("#F0F0F0");
-                
-        // grid
-        var gridHelper = new three.GridHelper( 1000, 20 );
-        scene.add( gridHelper );
-
-        // cubes
-        cubeGeo = new three.BoxBufferGeometry( 50, 50, 50 );
-
-        return scene;
-    }
-
-    const createSceneSubjects = (scene) => {
-        const sceneSubjects = [
-            new drawCarpark(scene),
-            new carparkLights(scene)
-        ];
-
-        return sceneSubjects;
-    }
+    const scene = buildScene(three).grid();
+    const sceneSubjects = [
+        new carpark(scene),
+        new carparkLights(scene)
+    ];
+    const renderer = buildRenderer(three, canvas, screenDimensions);
+    camera = buildCamera(three, screenDimensions).grid();
 
     const update = (time) => {
         const elapsedTime = clock.getElapsedTime();
@@ -47,36 +35,10 @@ const SceneManager = (canvas, xOffset, yOffset, store) => {
         renderer.render(scene, camera);
     }
 
-    const buildRender = ({ width, height }) => {
-        const renderer = new three.WebGLRenderer({ canvas, antialias: true, alpha: true }); 
-        const DPR = window.devicePixelRatio ? window.devicePixelRatio : 1;
-        renderer.setPixelRatio(DPR);
-        renderer.setSize(width, height);
-
-        renderer.gammaInput = true;
-        renderer.gammaOutput = true; 
-
-        return renderer;
-    }
-
-    const buildCamera = ({ width, height }) => {
-        const aspectRatio = width / height;
-        const fieldOfView = 38;
-        const nearPlane = 1;
-        const farPlane = 10000; 
-        const aCamera = new three.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
-
-        aCamera.position.set( 500, 650, 1300 );
-        aCamera.lookAt( 0, 0, 0 );
-
-        console.log('built camera');
-        return aCamera;
-    }
-
     const onWindowResize = () => {
         const { width, height } = canvas;
         
-        console.log(width, height);
+        console.log('resized', width, height);
         screenDimensions.width = width;
         screenDimensions.height = height;
 
@@ -85,8 +47,9 @@ const SceneManager = (canvas, xOffset, yOffset, store) => {
         renderer.setSize( width, height );
     }
 
-    function onDocumentMouseMove( event ) {
+    function onMouseMove(event) {
         event.preventDefault();
+        console.log(event.clientX, event.clientY, screenDimensions);
         const clientX = event.clientX - xOffset;
         const clientY = event.clientY - yOffset;
         mouse.set( ( clientX / screenDimensions.width ) * 2 - 1, - ( clientY / screenDimensions.height ) * 2 + 1 );
@@ -103,14 +66,22 @@ const SceneManager = (canvas, xOffset, yOffset, store) => {
     }
 
     var cubeGeo, cubeMaterial;
-    function onDocumentMouseDown( event ) {
+    // cubes ?
+        // const cubeGeo = new three.BoxBufferGeometry( 50, 50, 50 );
+        // cubes
+        cubeGeo = new three.BoxBufferGeometry( 50, 50, 50 );
+        cubeMaterial = new three.MeshLambertMaterial( { 
+            color: 0xfeb74c, 
+            map: new three.TextureLoader().load(squareTexture) 
+        });
+    const onMouseDown = ( event ) => {
         event.preventDefault();
         const clientX = event.clientX - xOffset;
         const clientY = event.clientY - yOffset;
         mouse.set( ( clientX / screenDimensions.width ) * 2 - 1, - ( clientY / screenDimensions.height ) * 2 + 1 );
         raycaster.setFromCamera( mouse, camera );
         var intersects = raycaster.intersectObjects( objects );
-        if ( intersects.length > 0 ) {
+        if (intersects.length > 0) {
             var intersect = intersects[ 0 ];
             // delete cube
             if ( store.getState().stadiumBuilder.deleteMode ) {
@@ -132,11 +103,6 @@ const SceneManager = (canvas, xOffset, yOffset, store) => {
         }
     }
 
-    const scene = buildScene();
-    const sceneSubjects = createSceneSubjects(scene);
-    const renderer = buildRender(screenDimensions);
-    camera = buildCamera(screenDimensions);
-
     var rollOverGeo = new three.BoxBufferGeometry( 50, 50, 50 );
     const rollOverMaterial = new three.MeshBasicMaterial( { color: 0xff0000, opacity: 0.5, transparent: true } );
     const rollOverMesh = new three.Mesh( rollOverGeo, rollOverMaterial );
@@ -154,8 +120,8 @@ const SceneManager = (canvas, xOffset, yOffset, store) => {
     return {
         update,
         onWindowResize,
-        onDocumentMouseMove,
-        onDocumentMouseDown
+        onMouseMove,
+        onMouseDown
     }
 }
 

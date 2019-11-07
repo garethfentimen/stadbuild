@@ -1,7 +1,7 @@
-import SceneManager from './sceneManager';
+import SceneManager from './mainSceneManager';
 import resizeCanvas from './events/resizeCanvas';
 
-export default containerElement => {
+const containerElement = (containerElement, xOffset, yOffset, store) => {
     const createCanvas = (document, containerElement) => {
         const canvas = document.createElement('canvas');     
         containerElement.appendChild(canvas);
@@ -9,20 +9,16 @@ export default containerElement => {
     }
 
     const canvas = createCanvas(document, containerElement);
-    const sceneManager = new SceneManager(canvas);
+    const sceneManager = new SceneManager(canvas, xOffset, yOffset, store);
 
     const bindEventListeners = () => {
-        let canvasHalfWidth;
-        let canvasHalfHeight;
         window.onresize = function() {
-            const canvasHalf = resizeCanvas(canvas, sceneManager);
-            canvasHalfHeight = canvasHalf.canvasHalfHeight;
-            canvasHalfWidth = canvasHalf.canvasHalfWidth;
+            resizeCanvas(canvas, sceneManager);
         };
-        window.onmousemove = function () {
-            const { screenX, screenY } = window;
-            sceneManager.onMouseMove(screenX-canvasHalfWidth, screenY-canvasHalfHeight);
+        window.onmousemove = function (ev) {
+            sceneManager.onMouseMove(ev);
         };
+        window.onmousedown = sceneManager.onMouseDown;
     }
 
     bindEventListeners();
@@ -34,3 +30,5 @@ export default containerElement => {
         sceneManager.update();
     }
 }
+
+export default containerElement;
