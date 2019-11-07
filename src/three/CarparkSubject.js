@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import asphaltTexture from '../carpark/asphalt_texture.jpg';
 
 export default drawCarpark => {    
     const group = new THREE.Group();
@@ -7,7 +6,7 @@ export default drawCarpark => {
     const greySquare = new THREE.Shape();
     const geometry = new THREE.BoxGeometry( 40, 5, 40 );
     const material = new THREE.MeshStandardMaterial( { color: 'grey' } );
-    material.alphaMap = new THREE.TextureLoader().load(asphaltTexture);
+    material.alphaMap = new THREE.TextureLoader().load('/textures/asphalt_texture.jpg');
     const cube = new THREE.Mesh( geometry, material );
     drawCarpark.add(cube);
 

@@ -1,11 +1,11 @@
-export default (canvas, sceneManager) => {     
-    canvas.style.width = '100%';
-    canvas.style.height= '100%';
+export default (canvas, sceneManager, {innerWidth, innerHeight}) => {     
+    canvas.style.width = `${innerWidth - 20}px`;
+    canvas.style.height = `${innerHeight - 140}px`;
     
     canvas.width  = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
 
-    sceneManager.onWindowResize();
+    sceneManager.onWindowResize(canvas);
 
     return {
         cavasWidth: canvas.offsetWidth,

@@ -14,7 +14,7 @@ class App extends Component {
         </header>
         <div className="App-intro">
           <div className="carpark">
-            <MainCanvas store={this.props.store} xOffset={30} yOffset={84}>
+            <MainCanvas store={this.props.store} xOffset={5} yOffset={90}>
               
             </MainCanvas>
             {/* <TicketOffice /> */}

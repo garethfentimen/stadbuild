@@ -4,7 +4,7 @@ import buildRenderer from './scene/renderScene';
 import buildCamera from './scene/camera';
 import carpark from './CarparkSubject';
 import carparkLights from './carparkLights';
-import squareTexture from './square-outline-textured.png';
+const squareTexture = '/textures/square-outline-textured.png';
 
 const SceneManager = (canvas, xOffset, yOffset, store) => {
     const clock = new three.Clock();
@@ -35,8 +35,7 @@ const SceneManager = (canvas, xOffset, yOffset, store) => {
         renderer.render(scene, camera);
     }
 
-    const onWindowResize = () => {
-        const { width, height } = canvas;
+    const onWindowResize = ({ width, height }) => {
         
         console.log('resized', width, height);
         screenDimensions.width = width;
@@ -46,6 +45,8 @@ const SceneManager = (canvas, xOffset, yOffset, store) => {
         camera.updateProjectionMatrix();
         renderer.setSize( width, height );
     }
+
+    const raycaster = new three.Raycaster();
 
     function onMouseMove(event) {
         event.preventDefault();
@@ -65,15 +66,14 @@ const SceneManager = (canvas, xOffset, yOffset, store) => {
         }
     }
 
-    var cubeGeo, cubeMaterial;
-    // cubes ?
-        // const cubeGeo = new three.BoxBufferGeometry( 50, 50, 50 );
-        // cubes
-        cubeGeo = new three.BoxBufferGeometry( 50, 50, 50 );
-        cubeMaterial = new three.MeshLambertMaterial( { 
-            color: 0xfeb74c, 
-            map: new three.TextureLoader().load(squareTexture) 
-        });
+    var cubeGeo = new three.BoxBufferGeometry( 50, 50, 50 ), cubeMaterial;
+    const texture = new three.TextureLoader().load(squareTexture);
+    texture.encoding = three.sRGBEncoding;
+    cubeMaterial = new three.MeshLambertMaterial( {
+        color: 0xC0C0C0,
+        map: texture
+    });
+        
     const onMouseDown = ( event ) => {
         event.preventDefault();
         const clientX = event.clientX - xOffset;
@@ -90,9 +90,10 @@ const SceneManager = (canvas, xOffset, yOffset, store) => {
                     objects.splice( objects.indexOf( intersect.object ), 1 );
                 }
             } else {
-                cubeMaterial = new three.MeshLambertMaterial(
-                    { color: 0xfeb74c, map: new three.TextureLoader().load(squareTexture) }
-                );
+                // cubeMaterial = new three.MeshLambertMaterial(
+                //     { color: 0xfeb74c, map: new three.TextureLoader().load(squareTexture) }
+                // );
+                console.log(cubeMaterial);
                 var voxel = new three.Mesh( cubeGeo, cubeMaterial );
                 voxel.position.copy( intersect.point ).add( intersect.face.normal );
                 voxel.position.divideScalar( 50 ).floor().multiplyScalar( 50 ).addScalar( 25 );
@@ -108,7 +109,6 @@ const SceneManager = (canvas, xOffset, yOffset, store) => {
     const rollOverMesh = new three.Mesh( rollOverGeo, rollOverMaterial );
     scene.add( rollOverMesh );
                 
-    const raycaster = new three.Raycaster();
     const mouse = new three.Vector2();
     var geometry = new three.PlaneBufferGeometry( 1000, 1000 );
     geometry.rotateX( - Math.PI / 2 );
