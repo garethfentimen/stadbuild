@@ -6,15 +6,9 @@ import { connect } from 'react-redux';
 import { toggleMode } from '../actions/stadiumBuilder';
 
 class Main extends Component {
-    constructor(props) { 
-        super(); 
-        this.yOffset = props.yOffset;
-        this.xOffset = props.xOffset;
-    }
-
     componentDidMount() {
-        console.log('mounted', this.yOffset);
-        threeEntryPoint(this.threeRootElement, this.xOffset, this.yOffset, this.props.store);
+        console.log('mounted', this.props.offsets);
+        threeEntryPoint(this.threeRootElement, this.props.store, this.props.offsets);
     }
     
     render() {
@@ -32,8 +26,7 @@ class Main extends Component {
 }
 
 Main.propTypes = {
-    yOffset: PropTypes.number.isRequired,
-    xOffset: PropTypes.number.isRequired,
+    offsets: PropTypes.object.isRequired,
     deleteMode: PropTypes.bool.isRequired,
     store: PropTypes.object.isRequired
 }

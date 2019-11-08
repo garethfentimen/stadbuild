@@ -1,7 +1,7 @@
 import SceneManager from './mainSceneManager';
 import resizeCanvas from './events/resizeCanvas';
 
-const containerElement = (containerElement, xOffset, yOffset, store, textures) => {
+const containerElement = (containerElement, store, offsets) => {
     const createCanvas = (document, containerElement) => {
         const canvas = document.createElement('canvas');     
         containerElement.appendChild(canvas);
@@ -9,7 +9,7 @@ const containerElement = (containerElement, xOffset, yOffset, store, textures) =
     }
 
     const canvas = createCanvas(document, containerElement);
-    const sceneManager = new SceneManager(canvas, xOffset, yOffset, store, textures);
+    const sceneManager = new SceneManager(canvas, store, offsets);
 
     const bindEventListeners = () => {
         resizeCanvas(canvas, sceneManager, window);
