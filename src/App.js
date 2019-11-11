@@ -18,7 +18,7 @@ class App extends Component {
             <MainCanvas store={this.props.store} offsets={{x: 5, y: 92 }}>
               
             </MainCanvas>
-            {/* <ProgrammeStall /> */}
+            <ProgrammeStall />
           </div>
         </div>
       </div>
