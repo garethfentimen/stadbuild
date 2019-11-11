@@ -1,4 +1,4 @@
-import react from 'react';import React, { Component } from 'react';
+import React, { Component } from 'react';
 import * as three from 'three';
 import Cube from './Cube';
 
@@ -9,10 +9,10 @@ export default class TicketOffice extends Component {
     }
 
     componentDidMount() {
-      const width = 800;
-      const height = 600;
+      const width = 200;
+      const height = 300;
 
-      const renderer = new three.WebGLRenderer({antialias: true})
+      const renderer = new three.WebGLRenderer({ antialias: true })
       renderer.setClearColor('#000000');
       renderer.setSize(width, height);
       const camera = new three.PerspectiveCamera(
@@ -27,14 +27,14 @@ export default class TicketOffice extends Component {
       this.camera = camera;
       this.renderer = renderer;
       let cube = Cube();
-      this.addElement(cube);
+      this.scene.add(cube);
       this.mount.appendChild(this.renderer.domElement);
 
-      this.animate();
+      //this.animate();
     }
 
     animate() {
-        this.props.cubes.map(cube => this.addElement(cube.geometry));
+        this.props.cubes.map(cube => this.scene.add(cube.geometry));
         this.renderScene();
         this.frameId =  window.requestAnimationFrame(this.animate);
     }
@@ -43,12 +43,8 @@ export default class TicketOffice extends Component {
         this.renderer.render(this.scene, this.camera);
     }
 
-    addElement(element){
-        this.scene.add(element)
-    }
-
     render() {
-        const {cubes, addCube } = this.props;
+        const { cubes, addCube } = this.props;
         return (
             <div>
                 <div

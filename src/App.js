@@ -3,6 +3,7 @@ import './App.css';
 import TicketOffice from './subjects/TicketOffice';
 import CarparkScene from './scenes/Carpark';
 import PropTypes from 'prop-types';
+import ProgrammeStall from './subjects/ProgrammeStall';
 
 class App extends Component {
   render() {
@@ -13,10 +14,12 @@ class App extends Component {
         </header>
         <div className="App-intro">
           <div className="carpark">
-            <CarparkScene store={this.props.store} xOffset={30} yOffset={84}>
+            {/* <CarparkScene store={this.props.store} xOffset={30} yOffset={84}>
               
-            </CarparkScene>
-            {/* <TicketOffice /> */}
+            </CarparkScene> */}
+            {/* <TicketOffice cubes={[{ id: 1 }, { id: 2 }]} /> */}
+
+            <ProgrammeStall />
           </div>
         </div>
       </div>
