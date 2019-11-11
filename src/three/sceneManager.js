@@ -1,10 +1,12 @@
 import * as three from 'three';
 import SceneSubject from './sceneSubject';
 import GeneralLights from './generalLights';
+import buildScene from './scene/buildScene';
+import buildRenderer from './scene/renderScene';
+import buildCamera from './scene/camera';
 import drawCarpark from '../scenes/CarparkSubject';
 
 export default canvas => {
-
     const clock = new three.Clock();
     const origin = new three.Vector3(0,0,0);
 
@@ -18,41 +20,10 @@ export default canvas => {
         y: 0
     }
 
-    const scene = buildScene();
-    const renderer = buildRender(screenDimensions);
-    const camera = buildCamera(screenDimensions);
+    const scene = buildScene(three);
+    const renderer = buildRenderer(three, canvas, screenDimensions);
+    const camera = buildCamera(three, screenDimensions);
     const sceneSubjects = createSceneSubjects(scene);
-
-    function buildScene() {
-        const scene = new three.Scene();
-        scene.background = new three.Color("#FFF");
-
-        return scene;
-    }
-
-    function buildRender({ width, height }) {
-        const renderer = new three.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true }); 
-        const DPR = window.devicePixelRatio ? window.devicePixelRatio : 1;
-        renderer.setPixelRatio(DPR);
-        renderer.setSize(width, height);
-
-        renderer.gammaInput = true;
-        renderer.gammaOutput = true; 
-
-        return renderer;
-    }
-
-    function buildCamera({ width, height }) {
-        const aspectRatio = width / height;
-        const fieldOfView = 60;
-        const nearPlane = 4;
-        const farPlane = 100; 
-        const camera = new three.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
-
-        camera.position.z = 40;
-
-        return camera;
-    }
 
     function createSceneSubjects(scene) {
         const sceneSubjects = [
@@ -64,6 +35,7 @@ export default canvas => {
         return sceneSubjects;
     }
 
+    // animation here
     function update() {
         const elapsedTime = clock.getElapsedTime();
 
@@ -72,7 +44,7 @@ export default canvas => {
                 sceneSubjects[i].update(elapsedTime);
         }
 
-        updateCameraPositionRelativeToMouse();
+        updateCameraPositionRelativeToMouse(camera);
 
         renderer.render(scene, camera);
     }

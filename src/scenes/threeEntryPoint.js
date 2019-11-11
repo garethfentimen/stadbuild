@@ -1,4 +1,4 @@
-import SceneManager from './carparkSceneManager';
+import SceneManager from '../three/mainSceneManager';
 
 const containerElement = (element, xOffset, yOffset, store) => {
     const canvas = createCanvas(document, element);

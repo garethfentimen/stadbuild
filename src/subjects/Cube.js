@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import * as THREE from 'three';
 
 const Cube = () => {
@@ -9,7 +8,6 @@ const Cube = () => {
   cube.position.y = (Math.random() * 5) - 5/2
   cube.position.z = (Math.random() * 5) - 5/2
   return cube;
-
 }
 
 
