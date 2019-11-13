@@ -4,6 +4,7 @@ import './App.css';
 //import CarparkScene from './scenes/Carpark';
 import MainCanvas from './components/main';
 import PropTypes from 'prop-types';
+import ProgrammeStall from './subjects/ProgrammeStall';
 
 class App extends Component {
   render() {
@@ -17,7 +18,7 @@ class App extends Component {
             <MainCanvas store={this.props.store} offsets={{x: 5, y: 92 }}>
               
             </MainCanvas>
-            {/* <TicketOffice /> */}
+            <ProgrammeStall />
           </div>
         </div>
       </div>
